@@ -1,13 +1,15 @@
-const Header = () => {
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+
+const Header : React.FC = () => {
     return (
-        <header className="flex justify-around items-center w-full h-20 bg-gray-800 text-white">
+        <header className="flex justify-around items-center w-full h-32 bg-[#d9dcde] text-white">
             <img className="w-64" src="/E-commerce.png" alt="logo" />
-            <ul className="flex justify-around items-center w-1/4">
-                <li>Home</li>
-                <li>Products</li>
-                <li>About</li>
-                <li>Contact</li>
-            </ul>
+            <div>
+                <FontAwesomeIcon icon={faUserAlt} />
+                <FontAwesomeIcon icon={faSignInAlt} />
+            </div>
         </header>
     );
 }
