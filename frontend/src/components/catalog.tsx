@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Product from "./productAdmin";
 import { motion } from "framer-motion";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { FourSquare } from "react-loading-indicators";
 
 interface ProductType {
     name: string;
@@ -88,8 +89,11 @@ const Catalog: React.FC = () => {
                     dataLength={products.length}
                     next={fetchMoreData}
                     hasMore={hasMore}
-                    loader={<h4 className="text-center">Carregando...</h4>}
-                    endMessage={<h4 className="text-center">Você já viu tudo!!</h4>}
+                    loader={
+                    <div className="text-center ">
+                        <FourSquare color="#111111" size="small" textColor="#111010"/>
+                    </div>
+                    }
                 >
                     <div className="flex flex-wrap justify-center gap-4">
                         {products.map((product, index) => (
