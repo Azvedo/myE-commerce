@@ -2,6 +2,8 @@ import React from "react"
 import {z} from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { updateProduct } from "../services/productService";
+import { useProductUpdate } from "../context/useProductUpdate";
 
 const editModalSchema = z.object({
     name: z.string(),
@@ -9,17 +11,39 @@ const editModalSchema = z.object({
     url_image: z.string(),
 })
 
+interface DataType{
+    id:string;
+    name: string;
+    price: number;
+    url_image: string;
+}
+
+
 type EditModalType = z.infer<typeof editModalSchema>
 
 interface EditModalProps {
     handleModal: () => void;
+    data : DataType;
 }
 
-const handleEditProduct = (data: EditModalType) => {
-    console.log(data)
-}
 
-const EditModal: React.FC<EditModalProps> = ({handleModal}) => {
+const EditModal: React.FC<EditModalProps> = ({data, handleModal}) => {
+
+    const {triggerUpdate} = useProductUpdate()
+
+    async function handleEditProduct(upatedData: EditModalType) {
+        try {
+            upatedData.name = upatedData.name || data.name;
+            upatedData.price = upatedData.price || data.price;
+            upatedData.url_image = upatedData.url_image || data.url_image
+            await updateProduct(data.id, upatedData)
+            handleModal()
+            triggerUpdate()
+        } catch (error) {
+            console.error("Failed to update product:", error)
+            alert("Erro ao atualizar produto. Tente novamente.")
+        }
+    }  
 
     const { register, handleSubmit } = useForm<EditModalType>({
         resolver: zodResolver(editModalSchema)
