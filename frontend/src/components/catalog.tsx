@@ -42,8 +42,6 @@ const Catalog: React.FC<CatalogProps> = ({Product}) => {
         }
     };
 
-    console.log("allProducts", allProducts);
-
     useEffect(() => {
         fetchData();
     }, [triggerUpdate]);
