@@ -18,7 +18,7 @@ export const getProducts = async () => {
 
 export const getProduct = async (id: string) => {
     try {
-        const response = await api.get(`/products/${id}`);
+        const response = await api.get(`/product/${id}`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -38,7 +38,7 @@ export const createProduct = async (data: Product) => {
 
 export const updateProduct = async (id: string, data: Product) => {
     try {
-        const response = await api.put(`/products/${id}`, data);
+        const response = await api.put(`/product/${id}`, data);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -48,7 +48,7 @@ export const updateProduct = async (id: string, data: Product) => {
 
 export const deleteProduct = async (id: string) => {
     try {
-        const response = await api.delete(`/products/${id}`);
+        const response = await api.delete(`/product/${id}`);
         return response.data;
     } catch (error) {
         console.error(error);
