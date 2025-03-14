@@ -1,22 +1,27 @@
 import { useState } from "react";
 import EditModal from "./editModal";
+import DeleteConfirmModal from "./deleteConfirmModal";
 
 interface ProductProps {
     product: {
+        id:string;
         name: string;
         price: number;
-        type?: string;
         url_image: string;
     };
 
 }
 
-const Product: React.FC<ProductProps> = ({ product }) => {
+const ProductAdmin: React.FC<ProductProps> = ({ product }) => {
     
-    const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-    const handleModal = () => {
-        setModalVisible(!modalVisible);
+    const handleEditModal = () => {
+        setEditModalVisible(!editModalVisible);
+    }
+    const handleDeleteModal = () => {
+        setDeleteModalVisible(!deleteModalVisible);
     }
 
     const formattedPrice = new Intl.NumberFormat('pt-BR', {
@@ -32,12 +37,13 @@ const Product: React.FC<ProductProps> = ({ product }) => {
                 <p>{formattedPrice}</p>
             </div>
             <div className="flex justify-end">
-                <button onClick={handleModal} className="bg-[#111111] cursor-pointer hover:bg-blue-900 text-white py-2 px-4 mt-4">Editar</button>
-                <button className="bg-[#111111] cursor-pointer hover:bg-red-600 text-white py-2 px-4 mt-4 ml-4  ">Excluir</button>
+                <button onClick={handleEditModal} className="bg-[#111111] cursor-pointer hover:bg-blue-900 text-white py-2 px-4 mt-4">Editar</button>
+                <button onClick={handleDeleteModal} className="bg-[#111111] cursor-pointer hover:bg-red-600 text-white py-2 px-4 mt-4 ml-4  ">Excluir</button>
             </div>
-            {modalVisible && <EditModal handleModal={handleModal} />}
+            {editModalVisible && <EditModal data={product} handleModal={handleEditModal} />}
+            {deleteModalVisible && <DeleteConfirmModal id={product.id} handleModal={handleDeleteModal} />}
         </div>
     );
 }
 
-export default Product;
+export default ProductAdmin;
