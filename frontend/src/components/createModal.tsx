@@ -2,6 +2,7 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import {createProduct} from "../services/productService"
 
 const creatModalSchema = z.object({
     name: z.string().nonempty(),
@@ -22,7 +23,8 @@ const CreatModal: React.FC<CreatModalProps> = ({ handleModal }) => {
     })
 
     function handleCreateProduct(data: CreatModalType) {
-        console.log(data)
+        createProduct(data)
+        handleModal()
     }
 
     return (
@@ -34,8 +36,8 @@ const CreatModal: React.FC<CreatModalProps> = ({ handleModal }) => {
                     <input type="string" placeholder="Preço" className="w-2/3 p-2 border border-[#111111] rounded-lg mb-4"  {...register('price')} />
                     <input type="text" placeholder="Url da imagem" className="w-2/3 p-2 border border-[#111111] rounded-lg mb-4" {...register('url_image')} />
                     <div className="flex items-center w-2/3 justify-around gap-12">
-                        <button className="w-1/2 p-2 bg-[#2ccc13] text-2xs font-medium rounded-lg mb-4 cursor-pointer">Salvar</button>
-                        <button onClick={handleModal} className=" w-1/2 p-2 bg-red-500 text-2xs font-medium rounded-lg mb-4 cursor-pointer">Cancelar</button>
+                        <button className="w-1/2 p-2 bg-[#111111] text-white hover:bg-gray-900 text-2xs font-medium rounded-lg mb-4 cursor-pointer">Salvar</button>
+                        <button onClick={handleModal} className=" w-1/2 p-2 bg-red-500 hover:bg-red-400 text-2xs font-medium rounded-lg mb-4 cursor-pointer">Cancelar</button>
                     </div>
                 </form>
             </div>
