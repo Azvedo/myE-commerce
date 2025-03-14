@@ -5,7 +5,9 @@ export const getProducts = async () => {
     const productsCollection = db.collection("products");
     const snapshot = await productsCollection.get();
     snapshot.forEach((doc) => {
-        products.push(doc.id, doc.data());
+        const data = doc.data();
+        data.id = doc.id;
+        products.push(data);
     });
     return products;
 };
