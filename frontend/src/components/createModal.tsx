@@ -15,9 +15,11 @@ type CreatModalType = z.infer<typeof creatModalSchema>
 
 interface CreatModalProps {
     handleModal: () => void;
+    setSuccess: (value: boolean) => void;
+    setError: (value: boolean) => void;
 }
 
-const CreatModal: React.FC<CreatModalProps> = ({ handleModal }) => {
+const CreatModal: React.FC<CreatModalProps> = ({ handleModal, setSuccess, setError}) => {
 
     const { register, handleSubmit } = useForm<CreatModalType>({
         resolver: zodResolver(creatModalSchema)
@@ -28,11 +30,14 @@ const CreatModal: React.FC<CreatModalProps> = ({ handleModal }) => {
     async function handleCreateProduct(data: CreatModalType) {
         try {
             await createProduct(data)
-            handleModal()
+            setSuccess(true)
             triggerUpdate()
+            handleModal()
+            
         } catch (error) {
             console.error("Failed to create product:", error)
-            alert("Erro ao criar produto. Tente novamente.")
+            setError(true)
+            handleModal()
         }
     }
 

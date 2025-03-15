@@ -31,7 +31,7 @@ const ProductAdmin: React.FC<ProductProps> = ({ product }) => {
 
     return (
         <div className="p-4 m-4 w-96 text-[#111111]">
-            <img src={product.url_image} alt={product.name} className="w-96" />
+            <img src={product.url_image} alt={product.name} className="w-96 h-[370px]" />
             <div className="mt-4 ">
                 <h2>{product.name}</h2>
                 <p>{formattedPrice}</p>

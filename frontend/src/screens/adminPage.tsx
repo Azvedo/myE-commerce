@@ -1,15 +1,44 @@
 import Header from "../components/header";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Catalog from "../components/catalog";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import CreateModal  from "../components/createModal";
 import ProductAdmin from "../components/productAdmin";
-
+import Success from "../components/popups/success";
+import Error from "../components/popups/error";
 
 const AdminPage: React.FC = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [success , setSuccess] = useState(false);
+    const [error , setError] = useState(false);
+
+    const [successPopup, setSuccessPopup] = useState(false);
+    const [errorPopup, setErrorPopup] = useState(false);
+
+    const showPopup = () => {
+        if (success) {
+            setSuccessPopup(true);
+            setTimeout(() => {
+                setSuccessPopup(false);
+                setSuccess(false);
+            }, 5000);
+        }
+        if (error) {
+            setErrorPopup(true);
+            setTimeout(() => {
+                setErrorPopup(false);
+                setError(false);
+            }, 5000);
+        }
+    }
+
+    useEffect(() => {
+        showPopup();
+    },[success, error])
+
 
     const handleModal = () => {
         setModalVisible(!modalVisible);
@@ -33,7 +62,9 @@ const AdminPage: React.FC = () => {
                 </button>
                 <Catalog Product={ProductAdmin} />
             </main>
-            {modalVisible && <CreateModal handleModal={handleModal} />}
+            {modalVisible && <CreateModal handleModal={handleModal} setSuccess={setSuccess} setError={setError} />}
+            {successPopup && <Success message="Produto criado com sucesso." />}
+            {errorPopup && <Error message="Erro ao criar o produto." />}
         </>
     )
 }
