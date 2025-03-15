@@ -23,8 +23,15 @@ const Login: React.FC = () => {
     async function handleLogin(data: loginType) {
         try {
             const response = await login(data);
-            localStorage.setItem("token", response.token);
-            window.location.href = "/admin";
+            if (response.token) {
+                localStorage.setItem("token", response.token);
+                
+                setTimeout(() => {
+                    window.location.href = "/admin";
+                }, 100); 
+            } else {
+                throw new Error("Token inválido");
+            }
         } catch (error) {
             console.error("Failed to login:", error);
             alert("Erro ao fazer login. Tente novamente.");

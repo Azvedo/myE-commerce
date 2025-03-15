@@ -6,6 +6,11 @@ interface Product {
     url_image: string;
 }
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 export const getProducts = async () => {
     try {
         const response = await api.get("/products");
@@ -28,7 +33,9 @@ export const getProduct = async (id: string) => {
 
 export const createProduct = async (data: Product) => {
     try {
-        const response = await api.post("/product", data);
+        const response = await api.post("/product", data, {
+            headers: getAuthHeaders()
+        });
         return response.data;
     } catch (error) {
         console.error(error);
@@ -38,7 +45,9 @@ export const createProduct = async (data: Product) => {
 
 export const updateProduct = async (id: string, data: Product) => {
     try {
-        const response = await api.put(`/product/${id}`, data);
+        const response = await api.put(`/product/${id}`, data, {
+            headers: getAuthHeaders()
+        });
         return response.data;
     } catch (error) {
         console.error(error);
@@ -48,7 +57,9 @@ export const updateProduct = async (id: string, data: Product) => {
 
 export const deleteProduct = async (id: string) => {
     try {
-        const response = await api.delete(`/product/${id}`);
+        const response = await api.delete(`/product/${id}`, {
+            headers: getAuthHeaders()
+        });
         return response.data;
     } catch (error) {
         console.error(error);
