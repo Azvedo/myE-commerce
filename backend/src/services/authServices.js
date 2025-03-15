@@ -10,7 +10,7 @@ const User = {
 const Login = (email, password) => {
     if(email === User.email && password === User.password){
         const token = jwt.sign({email: email}, SECRET_KEY, {expiresIn: "1h"});
-        return token;
+        return {token};
     }
     throw new Error("Email ou senha inválidos");
 }
