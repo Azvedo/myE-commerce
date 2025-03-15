@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {createProduct} from "../services/productService"
+import { useProductUpdate } from "../context/useProductUpdate"
 
 const creatModalSchema = z.object({
     name: z.string().nonempty(),
@@ -22,9 +23,17 @@ const CreatModal: React.FC<CreatModalProps> = ({ handleModal }) => {
         resolver: zodResolver(creatModalSchema)
     })
 
-    function handleCreateProduct(data: CreatModalType) {
-        createProduct(data)
-        handleModal()
+    const { triggerUpdate } = useProductUpdate()
+
+    async function handleCreateProduct(data: CreatModalType) {
+        try {
+            await createProduct(data)
+            handleModal()
+            triggerUpdate()
+        } catch (error) {
+            console.error("Failed to create product:", error)
+            alert("Erro ao criar produto. Tente novamente.")
+        }
     }
 
     return (

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Product from "./productAdmin";
 import { motion } from "framer-motion";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FourSquare } from "react-loading-indicators";
 import { getProducts } from "../services/productService";
+import { useProductUpdate } from "../context/useProductUpdate";
 
 interface ProductType {
     id: string;
@@ -12,11 +12,26 @@ interface ProductType {
     url_image: string;
 }
 
-const Catalog: React.FC = () => {
+interface ProductProps {
+    product: {
+        id: string;
+        name: string;
+        price: number;
+        url_image: string;
+    };
+}
+
+interface CatalogProps {
+    Product: React.FC<ProductProps>;
+}
+
+const Catalog: React.FC<CatalogProps> = ({Product}) => {
     const [products, setProducts] = useState<ProductType[]>([]);
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
     const [allProducts, setAllProducts] = useState<ProductType[]>([]);
+
+    const { triggerUpdate } = useProductUpdate();
 
     const fetchData = async () => {
         try {
@@ -27,11 +42,9 @@ const Catalog: React.FC = () => {
         }
     };
 
-    console.log("allProducts", allProducts);
-
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [triggerUpdate]);
 
     useEffect(() => {
         setProducts(allProducts.slice(0, 6));
