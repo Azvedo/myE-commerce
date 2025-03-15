@@ -4,8 +4,8 @@ import { authenticate } from "../controllers/authController.js"; // 🔹 Importa
 
 const productRouter = express.Router();
 
-productRouter.get("/products", authenticate, getAllProducts);
-productRouter.get("/product/:id", authenticate, getProduct);
+productRouter.get("/products", getAllProducts);
+productRouter.get("/product/:id", getProduct);
 productRouter.post("/product", authenticate, addProduct);
 productRouter.put("/product/:id", authenticate, changeProduct);
 productRouter.delete("/product/:id", authenticate, removeProduct);
