@@ -1,13 +1,14 @@
 import express from "express";
 import { getAllProducts, getProduct, addProduct, removeProduct, changeProduct } from "../controllers/productController.js";
+import { authenticate } from "../controllers/authController.js"; // 🔹 Importa o middleware de autenticação
+
+const productRouter = express.Router();
+
+productRouter.get("/products", getAllProducts);
+productRouter.get("/product/:id", getProduct);
+productRouter.post("/product", authenticate, addProduct);
+productRouter.put("/product/:id", authenticate, changeProduct);
+productRouter.delete("/product/:id", authenticate, removeProduct);
 
 
-const router = express.Router();
-
-router.get("/products", getAllProducts);
-router.get("/product/:id", getProduct);
-router.post("/product", addProduct);
-router.put("/product/:id", changeProduct);
-router.delete("/product/:id", removeProduct);
-
-export default router;
+export default productRouter;

@@ -5,7 +5,13 @@ export const getProducts = async () => {
     const productsCollection = db.collection("products");
     const snapshot = await productsCollection.get();
     snapshot.forEach((doc) => {
-        products.push(doc.id, doc.data());
+        const data = {
+            id: doc.id,
+            name: doc.data().name,
+            price: doc.data().price,
+            url_image: doc.data().url_image,
+        };
+        products.push(data);
     });
     return products;
 };
