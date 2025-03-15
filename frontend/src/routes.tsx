@@ -5,6 +5,7 @@ import { ProductUpdateProvider } from "./context/useProductUpdate";
 import ClientPage from "./screens/clientPage";
 import Login from "./screens/login";
 import ProtectedRoute from "./protectedRoute";
+import ProductPage from "./screens/productPage";
 
 
 const AppRoutes : React.FC = () => {
@@ -13,6 +14,7 @@ const AppRoutes : React.FC = () => {
             <Routes>
                 <Route path="/" element={<ClientPage/>} />
                 <Route path="/login" element={<Login/>} />
+                <Route path="/product/:productId" element={< ProductPage/>} />
                 <Route path="/admin" element={
                     <ProtectedRoute>
                         <Admin/>

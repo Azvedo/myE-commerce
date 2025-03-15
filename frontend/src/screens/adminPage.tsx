@@ -24,7 +24,7 @@ const AdminPage: React.FC = () => {
         <>
             <Header />
             <main className="flex flex-col items-center">
-                <button onClick={handleLogOut} className="fixed top-10 right-10 hover:bg-gray-400 flex items-center justify-center p-2 text-black text-2xs font-medium rounded-lg mb-4 cursor-pointer">
+                <button onClick={handleLogOut} className="absolute top-10 right-10 hover:bg-gray-400 flex items-center justify-center p-2 text-black text-2xs font-medium rounded-lg mb-4 cursor-pointer">
                     <FontAwesomeIcon icon={faSignOut} size="xl"/>
                 </button>
                 <h1 className="text-3xl font-light text-[#111111] text-center p-4">Meu estoque</h1>

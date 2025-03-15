@@ -1,2 +1,2 @@
 # myE-commerce
-E-commer desenvolvido com ReactJS e Node/express
+E-commerce desenvolvido com ReactJS e Node/express
