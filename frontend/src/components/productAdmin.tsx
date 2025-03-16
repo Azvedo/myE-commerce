@@ -2,6 +2,12 @@ import { useState } from "react";
 import EditModal from "./editModal";
 import DeleteConfirmModal from "./deleteConfirmModal";
 
+interface ActionHandlers {
+    setSuccess: (value: boolean) => void;
+    setError: (value: boolean) => void;
+    setWhere: (value: string) => void;
+}
+
 interface ProductProps {
     product: {
         id:string;
@@ -10,9 +16,11 @@ interface ProductProps {
         url_image: string;
     };
 
+    actions: ActionHandlers;
+
 }
 
-const ProductAdmin: React.FC<ProductProps> = ({ product }) => {
+const ProductAdmin: React.FC<ProductProps> = ({ product, actions }) => {
     
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -40,8 +48,8 @@ const ProductAdmin: React.FC<ProductProps> = ({ product }) => {
                 <button onClick={handleEditModal} className="bg-[#111111] cursor-pointer hover:bg-blue-900 text-white py-2 px-4 mt-4">Editar</button>
                 <button onClick={handleDeleteModal} className="bg-[#111111] cursor-pointer hover:bg-red-600 text-white py-2 px-4 mt-4 ml-4  ">Excluir</button>
             </div>
-            {editModalVisible && <EditModal data={product} handleModal={handleEditModal} />}
-            {deleteModalVisible && <DeleteConfirmModal id={product.id} handleModal={handleDeleteModal} />}
+            {editModalVisible && <EditModal data={product} handleModal={handleEditModal} actions={actions}/>}
+            {deleteModalVisible && <DeleteConfirmModal id={product.id} handleModal={handleDeleteModal} actions={actions} />}
         </div>
     );
 }

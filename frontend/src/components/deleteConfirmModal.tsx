@@ -2,25 +2,35 @@ import React from "react";
 import { deleteProduct } from "../services/productService";
 import { useProductUpdate } from "../context/useProductUpdate";
 
+interface ActionHandlers {
+    setSuccess: (value: boolean) => void;
+    setError: (value: boolean) => void;
+    setWhere: (value: string) => void;
+}
+
 interface DeleteConfirmModalProps {
     handleModal: () => void;
     id : string;
+    actions : ActionHandlers;
 }
 
 
-const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({id, handleModal}) => {
+const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({id, handleModal, actions}) => {
     
     const {triggerUpdate} = useProductUpdate()
 
     async function handleDeleteProduct() {
         try {
             await deleteProduct(id)
-            handleModal()
+            actions.setSuccess(true)
+            actions.setWhere("delete")
             triggerUpdate()
-        }
-        catch (error) { 
+            handleModal()
+        } catch (error) { 
+            actions.setError(true)
+            actions.setWhere("delete")
             console.error("Failed to delete product:", error)
-            alert("Erro ao deletar produto. Tente novamente.")
+            handleModal()
         }
 
     }

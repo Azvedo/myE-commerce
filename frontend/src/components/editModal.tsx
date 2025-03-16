@@ -18,16 +18,22 @@ interface DataType{
     url_image: string;
 }
 
+interface ActionHandlers {
+    setSuccess: (value: boolean) => void;
+    setError: (value: boolean) => void;
+    setWhere: (value: string) => void;
+}
 
 type EditModalType = z.infer<typeof editModalSchema>
 
 interface EditModalProps {
     handleModal: () => void;
     data : DataType;
+    actions : ActionHandlers;
 }
 
 
-const EditModal: React.FC<EditModalProps> = ({data, handleModal}) => {
+const EditModal: React.FC<EditModalProps> = ({data, handleModal, actions}) => {
 
     const {triggerUpdate} = useProductUpdate()
 
@@ -37,11 +43,15 @@ const EditModal: React.FC<EditModalProps> = ({data, handleModal}) => {
             upatedData.price = upatedData.price || data.price;
             upatedData.url_image = upatedData.url_image || data.url_image
             await updateProduct(data.id, upatedData)
-            handleModal()
+            actions.setSuccess(true)
+            actions.setWhere("edit")
             triggerUpdate()
+            handleModal()
         } catch (error) {
+            actions.setError(true)
+            actions.setWhere("edit")
             console.error("Failed to update product:", error)
-            alert("Erro ao atualizar produto. Tente novamente.")
+            handleModal()
         }
     }  
 

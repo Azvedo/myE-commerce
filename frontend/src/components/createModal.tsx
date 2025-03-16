@@ -17,9 +17,10 @@ interface CreatModalProps {
     handleModal: () => void;
     setSuccess: (value: boolean) => void;
     setError: (value: boolean) => void;
+    setWhere: (value: string) => void;
 }
 
-const CreatModal: React.FC<CreatModalProps> = ({ handleModal, setSuccess, setError}) => {
+const CreatModal: React.FC<CreatModalProps> = ({ handleModal, setSuccess, setError, setWhere}) => {
 
     const { register, handleSubmit } = useForm<CreatModalType>({
         resolver: zodResolver(creatModalSchema)
@@ -31,11 +32,13 @@ const CreatModal: React.FC<CreatModalProps> = ({ handleModal, setSuccess, setErr
         try {
             await createProduct(data)
             setSuccess(true)
+            setWhere("create")
             triggerUpdate()
             handleModal()
             
         } catch (error) {
             console.error("Failed to create product:", error)
+            setWhere("create")
             setError(true)
             handleModal()
         }

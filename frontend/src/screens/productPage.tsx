@@ -37,14 +37,14 @@ const ProductPage: React.FC = () => {
     return (
         <div className="flex flex-col items-center">
             <Header />
+            <button onClick={() => window.history.back()} className="absolute top-10 left-10 hover:bg-gray-400 flex items-center justify-center p-2 text-black text-2xs font-medium rounded-lg mb-4 cursor-pointer"> Voltar </button>
             <div className="flex flex-col items-center w-full">      
-                <button onClick={() => window.history.back()} className="fixed top-10 left-10 hover:bg-gray-400 flex items-center justify-center p-2 text-black text-2xs font-medium rounded-lg mb-4 cursor-pointer"> Voltar </button>
                 {product && (
-                    <div className="p-4 m-4 w-full text-[#111111] flex items-center justify-around ">
-                        <div className="flex justify-center w-1/2 shadow-xs ">
+                    <div className="p-4 m-4 w-full text-[#111111] md:flex items-center justify-around ">
+                        <div className="flex justify-center md:w-1/2 shadow-xs ">
                             <img src={product.url_image} alt={product.name} className="w-2/3 " />
                         </div>
-                        <div className="mt-4 w-1/3 h-96 flex flex-col items-start p-8 justify-between">
+                        <div className="mt-4 md:w-1/3 h-96 flex flex-col items-start p-8 justify-between">
                             <div className=" flex flex-col items-start gap-14">
                                 <h1 className="font-regular text-3xl">{product.name}</h1>
                                 <p className="font-regular text-xl">{formattedPrice}</p>

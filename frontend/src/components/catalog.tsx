@@ -12,6 +12,12 @@ interface ProductType {
     url_image: string;
 }
 
+interface ActionHandlers {
+    setSuccess: (value: boolean) => void;
+    setError: (value: boolean) => void;
+    setWhere: (value: string) => void;
+}
+
 interface ProductProps {
     product: {
         id: string;
@@ -19,13 +25,16 @@ interface ProductProps {
         price: number;
         url_image: string;
     };
+
+    actions: ActionHandlers;
 }
 
 interface CatalogProps {
     Product: React.FC<ProductProps>;
+    actions: ActionHandlers;
 }
 
-const Catalog: React.FC<CatalogProps> = ({Product}) => {
+const Catalog: React.FC<CatalogProps> = ({Product , actions}) => {
     const [products, setProducts] = useState<ProductType[]>([]);
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
@@ -48,6 +57,10 @@ const Catalog: React.FC<CatalogProps> = ({Product}) => {
 
     useEffect(() => {
         setProducts(allProducts.slice(0, 6));
+    }, []);
+
+    useEffect(() => {
+        setProducts(allProducts.slice(0, page * 6));
     }, [allProducts]);
 
     const fetchMoreData = () => {
@@ -58,7 +71,7 @@ const Catalog: React.FC<CatalogProps> = ({Product}) => {
         setTimeout(() => {
             setProducts(products.concat(allProducts.slice(products.length, products.length + 3)));
             setPage(page + 1);
-        }, 1500);
+        }, 1000);
     };
 
 
@@ -81,7 +94,7 @@ const Catalog: React.FC<CatalogProps> = ({Product}) => {
                 >
                     <div className="flex flex-wrap justify-center gap-4">
                         {products.map((product, index) => (
-                            <Product key={index} product={product} />
+                            <Product key={index} product={product} actions={actions}/>
                         ))}
                     </div>
                 </InfiniteScroll>

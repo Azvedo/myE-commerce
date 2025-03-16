@@ -8,30 +8,74 @@ import ProductAdmin from "../components/productAdmin";
 import Success from "../components/popups/success";
 import Error from "../components/popups/error";
 
+interface ActionHandlers {
+    setSuccess: (value: boolean) => void;
+    setError: (value: boolean) => void;
+    setWhere: (value: string) => void;
+}
+
 const AdminPage: React.FC = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const [success , setSuccess] = useState(false);
     const [error , setError] = useState(false);
-
     const [successPopup, setSuccessPopup] = useState(false);
     const [errorPopup, setErrorPopup] = useState(false);
+    const [where, setWhere] = useState("edit");
+    const [message, setMessage] = useState("");
+
+    const actions: ActionHandlers = {
+        setSuccess: setSuccess,
+        setError: setError,
+        setWhere: setWhere,
+    }
 
     const showPopup = () => {
         if (success) {
             setSuccessPopup(true);
-            setTimeout(() => {
-                setSuccessPopup(false);
-                setSuccess(false);
-            }, 5000);
+            if (where === "create") {
+                setMessage("Produto criado com sucesso.");
+                setTimeout(() => {
+                    setSuccessPopup(false);
+                    setSuccess(false);
+                }, 5000);
+            }else if (where === "edit") {
+                setMessage("Produto editado com sucesso.");
+                setTimeout(() => {
+                    setSuccessPopup(false);
+                    setSuccess(false);
+                }, 5000);
+            }else if (where === "delete") { 
+                setMessage("Produto deletado com sucesso.");
+                setTimeout(() => {
+                    setSuccessPopup(false);
+                    setSuccess(false);
+                }, 5000);
+            }
         }
         if (error) {
             setErrorPopup(true);
-            setTimeout(() => {
-                setErrorPopup(false);
-                setError(false);
-            }, 5000);
+            if (where === "create") {
+                setMessage("Erro ao criar o produto.");
+                setTimeout(() => {
+                    setErrorPopup(false);
+                    setError(false);
+                }, 5000);
+            }else if (where === "edit") {
+                setMessage("Erro ao editar o produto.");
+                setTimeout(() => {
+                    setErrorPopup(false);
+                    setError(false);
+                }, 5000);
+            }
+            else if (where === "delete") {
+                setMessage("Erro ao deletar o produto.");
+                setTimeout(() => {
+                    setErrorPopup(false);
+                    setError(false);
+                }, 5000);
+            }
         }
     }
 
@@ -60,11 +104,11 @@ const AdminPage: React.FC = () => {
                 <button onClick={handleModal} className=" flex items-center justify-center p-2 bg-[#2ccc13]/80 hover:bg-[#2ccc13] text-2xs font-medium rounded-lg mb-4 cursor-pointer">
                     Adicionar Produto<FontAwesomeIcon icon={faPlus} size="xl" className="text-[#ffffff] pl-2" />
                 </button>
-                <Catalog Product={ProductAdmin} />
+                <Catalog Product={ProductAdmin} actions={actions}/>
             </main>
-            {modalVisible && <CreateModal handleModal={handleModal} setSuccess={setSuccess} setError={setError} />}
-            {successPopup && <Success message="Produto criado com sucesso." />}
-            {errorPopup && <Error message="Erro ao criar o produto." />}
+            {modalVisible && <CreateModal handleModal={handleModal} setSuccess={setSuccess} setError={setError} setWhere={setWhere} />}
+            {successPopup && <Success message={message} />}
+            {errorPopup && <Error message={message} />}
         </>
     )
 }
